@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy — AffiliScan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --bg:#0a0a0c; --surface:#111115; --border:#1e1e28; --accent:#ff6b35; --text:#eeeef2; --dim:#8888a0; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-size:16px; line-height:1.7; padding:40px 20px; }
+    .wrap { max-width:720px; margin:0 auto; }
+    .logo { display:flex; align-items:center; gap:10px; margin-bottom:48px; text-decoration:none; }
+    .logo svg { width:24px; height:24px; color:var(--accent); }
+    .logo span { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; color:var(--text); }
+    h1 { font-family:'Syne',sans-serif; font-size:36px; font-weight:800; margin-bottom:8px; }
+    .date { color:var(--dim); font-size:14px; margin-bottom:48px; }
+    h2 { font-family:'Syne',sans-serif; font-size:20px; font-weight:700; margin:36px 0 12px; color:var(--text); }
+    p { color:var(--dim); margin-bottom:16px; }
+    ul { color:var(--dim); padding-left:20px; margin-bottom:16px; }
+    ul li { margin-bottom:8px; }
+    a { color:var(--accent); }
+    hr { border:none; border-top:1px solid var(--border); margin:48px 0; }
+    footer { color:var(--dim); font-size:13px; margin-top:48px; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <a href="/" class="logo">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    <span>AffiliScan</span>
+  </a>
+
+  <h1>Privacy Policy</h1>
+  <p class="date">Last updated: May 6, 2025</p>
+
+  <p>This Privacy Policy explains how AffiliScan ("we", "us", or "our") handles information when you use the AffiliScan Chrome extension and website at affiliscan.app.</p>
+
+  <h2>1. Information We Do Not Collect</h2>
+  <p>AffiliScan is designed with privacy in mind. We do not collect, store, or transmit:</p>
+  <ul>
+    <li>Your name, email address, or any personal information</li>
+    <li>Your browsing history or YouTube watch history</li>
+    <li>Your Amazon account details or affiliate credentials</li>
+    <li>Any financial information</li>
+    <li>Analytics or usage data</li>
+  </ul>
+
+  <h2>2. How the Extension Works</h2>
+  <p>AffiliScan operates entirely within your browser. Here is exactly what it does:</p>
+  <ul>
+    <li><strong>Reads YouTube descriptions</strong> — only when you click "Scan Description" on a YouTube video tab. It reads only the video description to find Amazon affiliate links.</li>
+    <li><strong>Fetches Amazon pages</strong> — it makes direct requests to Amazon product pages to check if links are working. These requests go directly from your browser to Amazon, not through any server we control.</li>
+    <li><strong>Uses YouTube Data API</strong> — for bulk scanning, it calls the YouTube Data API to fetch video descriptions. This uses a public API key and does not require or access your Google account.</li>
+    <li><strong>Local storage only</strong> — all scan results are saved in your browser's local storage (chrome.storage.local). This data never leaves your device.</li>
+  </ul>
+
+  <h2>3. Permissions Explained</h2>
+  <p>AffiliScan requests the following Chrome permissions:</p>
+  <ul>
+    <li><strong>activeTab</strong> — to read the current YouTube video tab when you click Scan</li>
+    <li><strong>scripting</strong> — to inject the content script that reads the video description</li>
+    <li><strong>storage</strong> — to save scan results locally in your browser</li>
+    <li><strong>tabs</strong> — to find the active YouTube tab</li>
+  </ul>
+
+  <h2>4. Third-Party Services</h2>
+  <p>The extension interacts with the following third-party services:</p>
+  <ul>
+    <li><strong>Amazon.com and regional Amazon sites</strong> — to check if affiliate links are working</li>
+    <li><strong>YouTube Data API v3 (Google)</strong> — for bulk scanning playlists and channels</li>
+  </ul>
+  <p>These services have their own privacy policies. We do not share any data with them beyond what is necessary to check link status.</p>
+
+  <h2>5. Children's Privacy</h2>
+  <p>AffiliScan is not directed at children under the age of 13 and we do not knowingly collect any information from children.</p>
+
+  <h2>6. Changes to This Policy</h2>
+  <p>We may update this Privacy Policy from time to time. We will notify users of any significant changes by updating the date at the top of this page.</p>
+
+  <h2>7. Contact</h2>
+  <p>If you have any questions about this Privacy Policy, please contact us at: <a href="mailto:hello@affiliscan.app">hello@affiliscan.app</a></p>
+
+  <hr/>
+  <footer>© 2025 AffiliScan. All rights reserved. · <a href="/">Home</a></footer>
+</div>
+</body>
+</html>
