@@ -23,18 +23,21 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+    }
+
     body {
       background: var(--bg);
       color: var(--text);
       font-family: var(--body);
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 60px 20px;
+      padding: 80px 40px;
       overflow-x: hidden;
-      overflow-y: auto;
       position: relative;
     }
 
@@ -45,10 +48,11 @@
       top: -200px;
       left: 50%;
       transform: translateX(-50%);
-      width: 700px;
-      height: 500px;
+      width: 900px;
+      height: 600px;
       background: radial-gradient(ellipse, rgba(255,107,53,0.1) 0%, transparent 70%);
       pointer-events: none;
+      z-index: 0;
     }
 
     /* Grid */
@@ -61,13 +65,14 @@
         linear-gradient(90deg, rgba(255,107,53,0.025) 1px, transparent 1px);
       background-size: 60px 60px;
       pointer-events: none;
+      z-index: 0;
     }
 
     .wrap {
       position: relative;
       z-index: 1;
-      max-width: 680px;
       width: 100%;
+      max-width: 900px;
       text-align: center;
     }
 
@@ -75,16 +80,16 @@
     .logo {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 48px;
+      gap: 12px;
+      margin-bottom: 56px;
       animation: fadeUp .5s ease both;
     }
 
-    .logo svg { width: 28px; height: 28px; color: var(--accent); }
+    .logo svg { width: 32px; height: 32px; color: var(--accent); }
 
     .logo-text {
       font-family: var(--mono);
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
       letter-spacing: 0.04em;
     }
@@ -94,15 +99,15 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 5px 14px;
+      padding: 6px 16px;
       background: rgba(255,107,53,0.1);
       border: 1px solid rgba(255,107,53,0.2);
       border-radius: 100px;
       font-family: var(--mono);
       font-size: 11px;
       color: var(--accent);
-      letter-spacing: 0.08em;
-      margin-bottom: 28px;
+      letter-spacing: 0.1em;
+      margin-bottom: 32px;
       animation: fadeUp .5s .1s ease both;
     }
 
@@ -122,42 +127,50 @@
     /* Heading */
     h1 {
       font-family: var(--display);
-      font-size: clamp(40px, 6vw, 72px);
+      font-size: clamp(48px, 7vw, 88px);
       font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      margin-bottom: 24px;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      margin-bottom: 28px;
       animation: fadeUp .5s .15s ease both;
     }
 
     h1 span { color: var(--accent); }
 
-    p {
-      font-size: 17px;
+    .subtitle {
+      font-size: clamp(16px, 2vw, 19px);
       color: var(--dim);
       line-height: 1.7;
-      margin-bottom: 40px;
+      margin-bottom: 48px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
       animation: fadeUp .5s .2s ease both;
     }
 
     /* Email form */
+    .form-wrap {
+      animation: fadeUp .5s .25s ease both;
+      margin-bottom: 16px;
+    }
+
+    /* Hidden iframe for Mailchimp */
+    iframe[name="mc-hidden"] { display: none; }
+
     .form {
       display: flex;
       gap: 0;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
-      margin-bottom: 16px;
-      animation: fadeUp .5s .25s ease both;
       transition: border-color .2s;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
+      max-width: 520px;
+      margin: 0 auto;
     }
 
     .form:focus-within {
-      border-color: rgba(255,107,53,0.4);
+      border-color: rgba(255,107,53,0.5);
     }
 
     .form input {
@@ -165,16 +178,17 @@
       background: none;
       border: none;
       outline: none;
-      padding: 14px 18px;
+      padding: 16px 22px;
       color: var(--text);
       font-family: var(--body);
       font-size: 15px;
+      min-width: 0;
     }
 
     .form input::placeholder { color: var(--muted); }
 
     .form button {
-      padding: 14px 24px;
+      padding: 16px 28px;
       background: var(--accent);
       color: #fff;
       border: none;
@@ -184,6 +198,7 @@
       cursor: pointer;
       transition: opacity .2s;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .form button:hover { opacity: .85; }
@@ -193,6 +208,7 @@
       font-size: 12px;
       color: var(--muted);
       animation: fadeUp .5s .3s ease both;
+      margin-top: 12px;
     }
 
     /* Success state */
@@ -201,50 +217,42 @@
       flex-direction: column;
       align-items: center;
       gap: 12px;
-      padding: 24px;
+      padding: 28px;
       background: rgba(46,204,110,0.06);
       border: 1px solid rgba(46,204,110,0.2);
-      border-radius: 10px;
-      margin-bottom: 16px;
+      border-radius: 12px;
+      max-width: 520px;
+      margin: 0 auto 16px;
       animation: fadeUp .4s ease both;
     }
 
     .success.show { display: flex; }
+    .success-icon { font-size: 32px; }
+    .success-text { font-size: 16px; color: #2ecc6e; font-weight: 600; }
+    .success-sub { font-size: 13px; color: var(--dim); }
 
-    .success-icon { font-size: 28px; }
-
-    .success-text {
-      font-size: 15px;
-      color: #2ecc6e;
-      font-weight: 500;
-    }
-
-    .success-sub {
-      font-size: 13px;
-      color: var(--dim);
-    }
-
-    /* Features preview */
+    /* Features */
     .features {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px 24px;
-      margin-top: 56px;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-top: 64px;
       animation: fadeUp .5s .35s ease both;
-      text-align: left;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
     }
 
     .feat {
       display: flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      gap: 7px;
       font-size: 12px;
       color: var(--dim);
       font-family: var(--mono);
       white-space: nowrap;
+      padding: 10px 8px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
     }
 
     .feat-dot {
@@ -252,13 +260,13 @@
       height: 5px;
       border-radius: 50%;
       background: var(--accent);
-      opacity: 0.6;
+      opacity: 0.7;
       flex-shrink: 0;
     }
 
     /* Footer */
     .footer {
-      margin-top: 60px;
+      margin-top: 64px;
       font-size: 12px;
       color: var(--muted);
       animation: fadeUp .5s .4s ease both;
@@ -267,6 +275,18 @@
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: none; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body { padding: 60px 24px; }
+      .features { grid-template-columns: repeat(2, 1fr); }
+      .form button { padding: 16px 18px; font-size: 13px; }
+    }
+
+    @media (max-width: 480px) {
+      .features { grid-template-columns: repeat(1, 1fr); }
+      .logo { margin-bottom: 36px; }
     }
   </style>
 </head>
@@ -289,25 +309,28 @@
 
     <h1>Your affiliate links<br/>are <span>breaking</span> right now</h1>
 
-    <p>AffiliScan scans YouTube descriptions for broken, unavailable, and stripped Amazon affiliate links — so you never miss a commission again. Join the waitlist for early access.</p>
+    <p class="subtitle">AffiliScan scans YouTube descriptions for broken, unavailable, and stripped Amazon affiliate links — so you never miss a commission again. Join the waitlist for early access.</p>
 
-    <!-- Real Mailchimp form -->
     <!-- Hidden iframe to catch Mailchimp redirect silently -->
-    <iframe name="mc-hidden" style="display:none;"></iframe>
+    <iframe name="mc-hidden"></iframe>
 
-    <form action="https://app.us17.list-manage.com/subscribe/post?u=7b1bf1a26d8903de17167995b&amp;id=a58fcce79d&amp;f_id=00e5c3e1f0"
-          method="post" id="mc-form" target="mc-hidden" onsubmit="handleSubmit(event)">
+    <div class="form-wrap">
+      <form action="https://app.us17.list-manage.com/subscribe/post?u=7b1bf1a26d8903de17167995b&amp;id=a58fcce79d&amp;f_id=00e5c3e1f0"
+            method="post" id="mc-form" target="mc-hidden" onsubmit="handleSubmit(event)">
 
-      <div class="form" id="form-wrap">
-        <input type="email" name="EMAIL" id="email-input" placeholder="Enter your email address" required />
-        <button type="submit" id="submit-btn">Notify Me</button>
-      </div>
+        <div class="form" id="form-wrap">
+          <input type="email" name="EMAIL" id="email-input" placeholder="Enter your email address" required />
+          <button type="submit" id="submit-btn">Notify Me</button>
+        </div>
 
-      <!-- Mailchimp bot protection - do not remove -->
-      <div style="position:absolute;left:-5000px;" aria-hidden="true">
-        <input type="text" name="b_7b1bf1a26d8903de17167995b_a58fcce79d" tabindex="-1" value="">
-      </div>
-    </form>
+        <!-- Mailchimp bot protection -->
+        <div style="position:absolute;left:-5000px;" aria-hidden="true">
+          <input type="text" name="b_7b1bf1a26d8903de17167995b_a58fcce79d" tabindex="-1" value="">
+        </div>
+      </form>
+
+      <p class="form-note" id="form-note">No spam. Unsubscribe anytime. We'll only email you when we launch.</p>
+    </div>
 
     <div class="success" id="success-msg">
       <div class="success-icon">🎉</div>
@@ -315,15 +338,13 @@
       <div class="success-sub">We'll email you the moment AffiliScan launches.</div>
     </div>
 
-    <p class="form-note" id="form-note">No spam. Unsubscribe anytime. We'll only email you when we launch.</p>
-
     <div class="features">
-      <div class="feat"><span class="feat-dot"></span> Broken link detection</div>
-      <div class="feat"><span class="feat-dot"></span> Unavailable products</div>
-      <div class="feat"><span class="feat-dot"></span> Bulk channel scan</div>
-      <div class="feat"><span class="feat-dot"></span> Find replacement</div>
-      <div class="feat"><span class="feat-dot"></span> Email alerts</div>
-      <div class="feat"><span class="feat-dot"></span> Dashboard</div>
+      <div class="feat"><span class="feat-dot"></span>Broken link detection</div>
+      <div class="feat"><span class="feat-dot"></span>Unavailable products</div>
+      <div class="feat"><span class="feat-dot"></span>Bulk channel scan</div>
+      <div class="feat"><span class="feat-dot"></span>Find replacement</div>
+      <div class="feat"><span class="feat-dot"></span>Email alerts</div>
+      <div class="feat"><span class="feat-dot"></span>Dashboard</div>
     </div>
 
     <div class="footer">© 2025 AffiliScan. All rights reserved.</div>
@@ -343,8 +364,6 @@
       btn.disabled = true;
       btn.textContent = 'Saving…';
 
-      // Show success message after short delay
-      // Mailchimp handles the actual submission via form action
       setTimeout(() => {
         document.getElementById('form-wrap').style.display = 'none';
         document.getElementById('form-note').style.display = 'none';
