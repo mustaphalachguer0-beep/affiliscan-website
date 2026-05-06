@@ -282,10 +282,20 @@
 
     <p>AffiliScan scans YouTube descriptions for broken, unavailable, and stripped Amazon affiliate links — so you never miss a commission again. Join the waitlist for early access.</p>
 
-    <div class="form" id="form-wrap">
-      <input type="email" id="email-input" placeholder="Enter your email address" />
-      <button id="submit-btn" onclick="handleSubmit()">Notify Me</button>
-    </div>
+    <!-- Real Mailchimp form -->
+    <form action="https://app.us17.list-manage.com/subscribe/post?u=7b1bf1a26d8903de17167995b&amp;id=a58fcce79d&amp;f_id=00e5c3e1f0"
+          method="post" id="mc-form" target="_blank" onsubmit="handleSubmit(event)">
+
+      <div class="form" id="form-wrap">
+        <input type="email" name="EMAIL" id="email-input" placeholder="Enter your email address" required />
+        <button type="submit" id="submit-btn">Notify Me</button>
+      </div>
+
+      <!-- Mailchimp bot protection - do not remove -->
+      <div style="position:absolute;left:-5000px;" aria-hidden="true">
+        <input type="text" name="b_7b1bf1a26d8903de17167995b_a58fcce79d" tabindex="-1" value="">
+      </div>
+    </form>
 
     <div class="success" id="success-msg">
       <div class="success-icon">🎉</div>
@@ -304,35 +314,31 @@
       <div class="feat"><span class="feat-dot"></span> Dashboard</div>
     </div>
 
-    <div class="footer">© 2025 AffiliScan · AffiliScan</div>
+    <div class="footer">© 2025 AffiliScan. All rights reserved.</div>
 
   </div>
 
   <script>
-    function handleSubmit() {
+    function handleSubmit(e) {
       const email = document.getElementById('email-input').value.trim();
       const btn   = document.getElementById('submit-btn');
 
       if (!email || !email.includes('@')) {
-        document.getElementById('email-input').style.borderLeft = '2px solid #ff4f4f';
+        document.getElementById('email-input').style.outline = '2px solid #ff4f4f';
         return;
       }
 
       btn.disabled = true;
       btn.textContent = 'Saving…';
 
-      // For now just show success — connect to a real email service later
+      // Show success message after short delay
+      // Mailchimp handles the actual submission via form action
       setTimeout(() => {
         document.getElementById('form-wrap').style.display = 'none';
         document.getElementById('form-note').style.display = 'none';
         document.getElementById('success-msg').classList.add('show');
-      }, 600);
+      }, 800);
     }
-
-    // Allow pressing Enter to submit
-    document.getElementById('email-input').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleSubmit();
-    });
   </script>
 
 </body>
