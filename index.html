@@ -283,8 +283,11 @@
     <p>AffiliScan scans YouTube descriptions for broken, unavailable, and stripped Amazon affiliate links — so you never miss a commission again. Join the waitlist for early access.</p>
 
     <!-- Real Mailchimp form -->
+    <!-- Hidden iframe to catch Mailchimp redirect silently -->
+    <iframe name="mc-hidden" style="display:none;"></iframe>
+
     <form action="https://app.us17.list-manage.com/subscribe/post?u=7b1bf1a26d8903de17167995b&amp;id=a58fcce79d&amp;f_id=00e5c3e1f0"
-          method="post" id="mc-form" target="_blank" onsubmit="handleSubmit(event)">
+          method="post" id="mc-form" target="mc-hidden" onsubmit="handleSubmit(event)">
 
       <div class="form" id="form-wrap">
         <input type="email" name="EMAIL" id="email-input" placeholder="Enter your email address" required />
