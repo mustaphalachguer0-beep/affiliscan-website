@@ -3,115 +3,209 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AffiliScan — Coming Soon</title>
-  <meta name="description" content="AffiliScan is coming soon. Join the waitlist to get early access." />
+  <title>AffiliScan — Stop Losing Money on Broken Affiliate Links</title>
+  <meta name="description" content="Instantly scan YouTube video descriptions for broken, unavailable, and stripped Amazon affiliate links. Built for creators who can't afford to lose commission." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:      #0a0a0c;
-      --surface: #111115;
-      --border:  #1e1e28;
-      --accent:  #ff6b35;
-      --text:    #eeeef2;
-      --dim:     #8888a0;
-      --muted:   #44445a;
-      --mono:    'JetBrains Mono', monospace;
-      --display: 'Syne', sans-serif;
-      --body:    'Inter', sans-serif;
+      --bg:        #0a0a0c;
+      --surface:   #111115;
+      --surface2:  #18181f;
+      --border:    #222230;
+      --accent:    #ff6b35;
+      --accent2:   #ffad35;
+      --ok:        #2ecc6e;
+      --warn:      #ff4f4f;
+      --unavail:   #f0a500;
+      --text:      #eeeef2;
+      --text-dim:  #8888a0;
+      --text-muted:#44445a;
+      --mono:      'JetBrains Mono', monospace;
+      --display:   'Syne', sans-serif;
+      --body:      'Inter', sans-serif;
+      --radius:    8px;
+      --max:       1100px;
+    }
+
+    /* ── Light mode (auto, follows system) ───────────────────── */
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg:        #f5f5f7;
+        --surface:   #ffffff;
+        --surface2:  #ebebef;
+        --border:    #d1d1db;
+        --accent:    #e85d2a;
+        --accent2:   #d4890a;
+        --ok:        #1a9e52;
+        --warn:      #d93636;
+        --unavail:   #c47f00;
+        --text:      #1a1a2e;
+        --text-dim:  #55556a;
+        --text-muted:#9999aa;
+      }
+
+      body::before { opacity: 0.15; }
+
+      nav {
+        background: rgba(245,245,247,0.9) !important;
+      }
+
+      .hero-grid {
+        background-image:
+          linear-gradient(rgba(232,93,42,0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(232,93,42,0.05) 1px, transparent 1px) !important;
+      }
+
+      .demo-window {
+        box-shadow: 0 40px 120px rgba(0,0,0,0.15), 0 0 0 1px rgba(232,93,42,0.15) !important;
+      }
+
+      .faq-q { color: var(--text); }
+
+      footer {
+        background: var(--surface);
+      }
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
-      width: 100%;
-      min-height: 100vh;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
       color: var(--text);
       font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ─────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ───────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 40px;
+      background: rgba(10,10,12,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 28px;
+      height: 28px;
+      color: var(--accent);
+    }
+
+    .nav-logo-text {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 8px 20px;
+      border-radius: var(--radius);
+      font-weight: 600 !important;
+      transition: opacity .2s !important;
+    }
+
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ── HERO ──────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 80px 40px;
-      overflow-x: hidden;
-      position: relative;
+      text-align: center;
+      padding: 120px 40px 80px;
+      overflow: hidden;
     }
 
-    /* Background glow */
-    body::before {
-      content: '';
-      position: fixed;
+    .hero-glow {
+      position: absolute;
       top: -200px;
       left: 50%;
       transform: translateX(-50%);
-      width: 900px;
+      width: 800px;
       height: 600px;
-      background: radial-gradient(ellipse, rgba(255,107,53,0.1) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(255,107,53,0.12) 0%, transparent 70%);
       pointer-events: none;
-      z-index: 0;
     }
 
-    /* Grid */
-    body::after {
-      content: '';
-      position: fixed;
+    .hero-grid {
+      position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(255,107,53,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,107,53,0.025) 1px, transparent 1px);
+        linear-gradient(rgba(255,107,53,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,107,53,0.03) 1px, transparent 1px);
       background-size: 60px 60px;
       pointer-events: none;
-      z-index: 0;
     }
 
-    .wrap {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 900px;
-      text-align: center;
-    }
-
-    /* Logo */
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 56px;
-      animation: fadeUp .5s ease both;
-    }
-
-    .logo svg { width: 32px; height: 32px; color: var(--accent); }
-
-    .logo-text {
-      font-family: var(--mono);
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-    }
-
-    /* Badge */
-    .badge {
+    .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 6px 16px;
       background: rgba(255,107,53,0.1);
-      border: 1px solid rgba(255,107,53,0.2);
+      border: 1px solid rgba(255,107,53,0.25);
       border-radius: 100px;
       font-family: var(--mono);
-      font-size: 11px;
+      font-size: 12px;
       color: var(--accent);
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       margin-bottom: 32px;
-      animation: fadeUp .5s .1s ease both;
+      animation: fadeUp .6s ease both;
     }
 
-    .badge-dot {
+    .hero-badge-dot {
       width: 6px;
       height: 6px;
       background: var(--accent);
@@ -120,256 +214,1056 @@
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
     }
 
-    /* Heading */
-    h1 {
+    .hero h1 {
       font-family: var(--display);
-      font-size: clamp(48px, 7vw, 88px);
+      font-size: clamp(40px, 7vw, 80px);
       font-weight: 800;
-      line-height: 1.02;
-      letter-spacing: -0.03em;
-      margin-bottom: 28px;
-      animation: fadeUp .5s .15s ease both;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      max-width: 800px;
+      margin-bottom: 24px;
+      animation: fadeUp .6s .1s ease both;
     }
 
-    h1 span { color: var(--accent); }
+    .hero h1 span {
+      color: var(--accent);
+      position: relative;
+    }
 
-    .subtitle {
-      font-size: clamp(16px, 2vw, 19px);
-      color: var(--dim);
+    .hero-sub {
+      font-size: 18px;
+      color: var(--text-dim);
+      max-width: 520px;
       line-height: 1.7;
       margin-bottom: 48px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      animation: fadeUp .5s .2s ease both;
+      animation: fadeUp .6s .2s ease both;
     }
 
-    /* Email form */
-    .form-wrap {
-      animation: fadeUp .5s .25s ease both;
-      margin-bottom: 16px;
-    }
-
-    /* Hidden iframe for Mailchimp */
-    iframe[name="mc-hidden"] { display: none; }
-
-    .form {
+    .hero-actions {
       display: flex;
-      gap: 0;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp .6s .3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 15px;
+      transition: opacity .2s, transform .15s;
+    }
+
+    .btn-primary:hover { opacity: .88; transform: translateY(-1px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-weight: 500;
+      font-size: 15px;
+      transition: border-color .2s, background .2s;
+    }
+
+    .btn-secondary:hover { border-color: var(--accent); background: rgba(255,107,53,0.05); }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      margin-top: 64px;
+      animation: fadeUp .6s .4s ease both;
+    }
+
+    .hero-stat-num {
+      font-family: var(--mono);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .hero-stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ── DEMO PREVIEW ──────────────────────────────────── */
+    .demo-section {
+      padding: 40px 40px 100px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .demo-window {
+      width: 400px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
       overflow: hidden;
-      transition: border-color .2s;
-      max-width: 520px;
-      margin: 0 auto;
+      box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,107,53,0.1);
+      animation: fadeUp .8s .5s ease both;
     }
 
-    .form:focus-within {
-      border-color: rgba(255,107,53,0.5);
-    }
-
-    .form input {
-      flex: 1;
-      background: none;
-      border: none;
-      outline: none;
-      padding: 16px 22px;
-      color: var(--text);
-      font-family: var(--body);
-      font-size: 15px;
-      min-width: 0;
-    }
-
-    .form input::placeholder { color: var(--muted); }
-
-    .form button {
-      padding: 16px 28px;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      font-family: var(--body);
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity .2s;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .form button:hover { opacity: .85; }
-    .form button:disabled { opacity: .5; cursor: default; }
-
-    .form-note {
-      font-size: 12px;
-      color: var(--muted);
-      animation: fadeUp .5s .3s ease both;
-      margin-top: 12px;
-    }
-
-    /* Success state */
-    .success {
-      display: none;
-      flex-direction: column;
+    .demo-header {
+      display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 28px;
-      background: rgba(46,204,110,0.06);
-      border: 1px solid rgba(46,204,110,0.2);
-      border-radius: 12px;
-      max-width: 520px;
-      margin: 0 auto 16px;
-      animation: fadeUp .4s ease both;
+      justify-content: space-between;
+      padding: 12px 16px 10px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
     }
 
-    .success.show { display: flex; }
-    .success-icon { font-size: 32px; }
-    .success-text { font-size: 16px; color: #2ecc6e; font-weight: 600; }
-    .success-sub { font-size: 13px; color: var(--dim); }
+    .demo-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 14px;
+    }
 
-    /* Features */
-    .features {
+    .demo-logo svg { width: 18px; height: 18px; color: var(--accent); }
+
+    .demo-badges {
+      display: flex;
+      gap: 6px;
+    }
+
+    .demo-badge {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 100px;
+    }
+
+    .demo-badge.bad  { background: rgba(255,79,79,.15);  color: var(--warn);   border: 1px solid rgba(255,79,79,.3); }
+    .demo-badge.warn { background: rgba(240,165,0,.15);  color: var(--unavail);border: 1px solid rgba(240,165,0,.3); }
+
+    .demo-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .demo-tab {
+      flex: 1;
+      padding: 9px 0;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dim);
+      border-bottom: 2px solid transparent;
+    }
+
+    .demo-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .demo-cards {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 12px;
-      margin-top: 64px;
-      animation: fadeUp .5s .35s ease both;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
     }
 
-    .feat {
+    .demo-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .demo-card-num {
+      font-family: var(--mono);
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .demo-card-label {
+      font-size: 9px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .demo-card.total .demo-card-num  { color: var(--text); }
+    .demo-card.ok    .demo-card-num  { color: var(--ok); }
+    .demo-card.unavail .demo-card-num { color: var(--unavail); }
+    .demo-card.broken .demo-card-num { color: var(--warn); }
+
+    .demo-links {
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .demo-link {
+      display: grid;
+      grid-template-columns: 10px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 10px;
+      background: var(--surface2);
+      border-radius: 6px;
+      border-left: 2px solid transparent;
+    }
+
+    .demo-link.ok     { border-left-color: var(--ok); }
+    .demo-link.broken { border-left-color: var(--warn); }
+    .demo-link.unavail { border-left-color: var(--unavail); }
+
+    .demo-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .demo-link.ok     .demo-dot { background: var(--ok); }
+    .demo-link.broken .demo-dot { background: var(--warn); }
+    .demo-link.unavail .demo-dot { background: var(--unavail); }
+
+    .demo-link-text {
+      font-size: 10px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: var(--mono);
+    }
+
+    .demo-link-badge {
+      font-family: var(--mono);
+      font-size: 8px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 100px;
+    }
+
+    .demo-link.ok     .demo-link-badge { background: rgba(46,204,110,.12); color: var(--ok);     border: 1px solid rgba(46,204,110,.25); }
+    .demo-link.broken .demo-link-badge { background: rgba(255,79,79,.12);  color: var(--warn);   border: 1px solid rgba(255,79,79,.25); }
+    .demo-link.unavail .demo-link-badge { background: rgba(240,165,0,.12); color: var(--unavail);border: 1px solid rgba(240,165,0,.25); }
+
+    /* ── SECTION BASE ──────────────────────────────────── */
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      color: var(--text-dim);
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 520px;
+    }
+
+    /* ── PROBLEM SECTION ───────────────────────────────── */
+    .problem-section {
+      padding: 100px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 60px;
+    }
+
+    .problem-card {
+      background: var(--surface);
+      padding: 36px 32px;
+    }
+
+    .problem-icon {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .problem-title {
+      font-family: var(--display);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .problem-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    /* ── FEATURES ──────────────────────────────────────── */
+    .features-section {
+      padding: 100px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 60px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      transition: border-color .2s, transform .2s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(255,107,53,0.3);
+      transform: translateY(-2px);
+    }
+
+    .feature-card.featured {
+      grid-column: span 2;
+      background: linear-gradient(135deg, rgba(255,107,53,0.08), rgba(255,173,53,0.04));
+      border-color: rgba(255,107,53,0.2);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(255,107,53,0.1);
+      border: 1px solid rgba(255,107,53,0.2);
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
-      font-size: 12px;
-      color: var(--dim);
-      font-family: var(--mono);
-      white-space: nowrap;
-      padding: 10px 8px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      font-size: 20px;
+      margin-bottom: 20px;
     }
 
-    .feat-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
+    .feature-title {
+      font-family: var(--display);
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    /* ── HOW IT WORKS ──────────────────────────────────── */
+    .how-section {
+      padding: 100px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 60px;
+      counter-reset: steps;
+    }
+
+    .step {
+      position: relative;
+      padding-left: 0;
+    }
+
+    .step-num {
+      font-family: var(--mono);
+      font-size: 48px;
+      font-weight: 700;
+      color: rgba(255,107,53,0.15);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .step-title {
+      font-family: var(--display);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .step-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    /* ── PRICING ───────────────────────────────────────── */
+    .pricing-section {
+      padding: 100px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      margin-top: 60px;
+    }
+
+    .pricing-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px 32px;
+      position: relative;
+    }
+
+    .pricing-card.popular {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, rgba(255,107,53,0.06), var(--surface));
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
       background: var(--accent);
-      opacity: 0.7;
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 100px;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .pricing-name {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    .pricing-price {
+      font-family: var(--display);
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .pricing-price span {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--text-dim);
+    }
+
+    .pricing-period {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-dim);
+    }
+
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--ok);
+      font-weight: 700;
+      font-size: 13px;
       flex-shrink: 0;
     }
 
-    /* Footer */
-    .footer {
-      margin-top: 64px;
-      font-size: 12px;
-      color: var(--muted);
-      animation: fadeUp .5s .4s ease both;
+    .pricing-features li.no::before { content: '✕'; color: var(--text-muted); }
+    .pricing-features li.no { color: var(--text-muted); }
+
+    .btn-plan {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      text-align: center;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      transition: opacity .2s;
     }
 
+    .btn-plan.primary { background: var(--accent); color: #fff; }
+    .btn-plan.primary:hover { opacity: .85; }
+    .btn-plan.outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-plan.outline:hover { border-color: var(--accent); }
+
+    /* ── FAQ ───────────────────────────────────────────── */
+    .faq-section {
+      padding: 100px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .faq-list {
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .faq-item {
+      background: var(--surface);
+    }
+
+    .faq-q {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 28px;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      transition: background .15s;
+    }
+
+    .faq-q:hover { background: var(--surface2); }
+
+    .faq-q-icon {
+      font-size: 20px;
+      color: var(--accent);
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+
+    .faq-item.open .faq-q-icon { transform: rotate(45deg); }
+
+    .faq-a {
+      display: none;
+      padding: 0 28px 24px;
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .faq-item.open .faq-a { display: block; }
+
+    /* ── CTA ───────────────────────────────────────────── */
+    .cta-section {
+      padding: 100px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .cta-glow {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 300px;
+      background: radial-gradient(ellipse, rgba(255,107,53,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ── FOOTER ────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-dim);
+    }
+
+    .footer-logo svg { width: 16px; height: 16px; color: var(--accent); }
+
+    /* ── ANIMATIONS ────────────────────────────────────── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
+      from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: none; }
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      body { padding: 60px 24px; }
-      .features { grid-template-columns: repeat(2, 1fr); }
-      .form button { padding: 16px 18px; font-size: 13px; }
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
     }
 
-    @media (max-width: 480px) {
-      .features { grid-template-columns: repeat(1, 1fr); }
-      .logo { margin-bottom: 36px; }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 100px 20px 60px; }
+      .hero-stats { gap: 28px; flex-wrap: wrap; justify-content: center; }
+      .container { padding: 0 20px; }
+      .problem-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .feature-card.featured { grid-column: span 1; }
+      .steps { grid-template-columns: 1fr; gap: 32px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .demo-window { width: 100%; max-width: 380px; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
 
-    <div class="logo">
-      <svg viewBox="0 0 24 24" fill="none">
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <svg class="nav-logo-icon" viewBox="0 0 24 24" fill="none">
         <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
         <path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
         <path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
       </svg>
-      <span class="logo-text">AffiliScan</span>
+      <span class="nav-logo-text">AffiliScan</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="https://chromewebstore.google.com/detail/affiliscan/bjecldnbhlllbbicadlbecckdblpimga" target="_blank" class="nav-cta">Get Extension</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-grid"></div>
+
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Chrome Extension · Free to start
     </div>
 
-    <div class="badge">
-      <span class="badge-dot"></span>
-      LAUNCHING SOON
+    <h1>Stop losing money on<br/><span>broken affiliate links</span></h1>
+
+    <p class="hero-sub">
+      AffiliScan instantly scans YouTube video descriptions for broken, unavailable,
+      and stripped Amazon affiliate links — so you never miss a commission again.
+    </p>
+
+    <div class="hero-actions">
+      <a href="https://chromewebstore.google.com/detail/affiliscan/bjecldnbhlllbbicadlbecckdblpimga" target="_blank" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+        Add to Chrome — Free
+      </a>
+      <a href="#how" class="btn-secondary">See how it works →</a>
     </div>
 
-    <h1>Your affiliate links<br/>are <span>breaking</span> right now</h1>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">3</div>
+        <div class="hero-stat-label">Link statuses detected</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">&lt;10s</div>
+        <div class="hero-stat-label">Average scan time</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">200+</div>
+        <div class="hero-stat-label">Videos per bulk scan</div>
+      </div>
+    </div>
+  </section>
 
-    <p class="subtitle">AffiliScan scans YouTube descriptions for broken, unavailable, and stripped Amazon affiliate links — so you never miss a commission again. Join the waitlist for early access.</p>
-
-    <!-- Hidden iframe to catch Mailchimp redirect silently -->
-    <iframe name="mc-hidden"></iframe>
-
-    <div class="form-wrap">
-      <form action="https://app.us17.list-manage.com/subscribe/post?u=7b1bf1a26d8903de17167995b&amp;id=a58fcce79d&amp;f_id=00e5c3e1f0"
-            method="post" id="mc-form" target="mc-hidden" onsubmit="handleSubmit(event)">
-
-        <div class="form" id="form-wrap">
-          <input type="email" name="EMAIL" id="email-input" placeholder="Enter your email address" required />
-          <button type="submit" id="submit-btn">Notify Me</button>
+  <!-- DEMO PREVIEW -->
+  <div class="demo-section">
+    <div class="demo-window">
+      <div class="demo-header">
+        <div class="demo-logo">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+          AffiliScan
         </div>
-
-        <!-- Mailchimp bot protection -->
-        <div style="position:absolute;left:-5000px;" aria-hidden="true">
-          <input type="text" name="b_7b1bf1a26d8903de17167995b_a58fcce79d" tabindex="-1" value="">
+        <div class="demo-badges">
+          <span class="demo-badge bad">4 broken</span>
+          <span class="demo-badge warn">2 unavail</span>
         </div>
-      </form>
-
-      <p class="form-note" id="form-note">No spam. Unsubscribe anytime. We'll only email you when we launch.</p>
+      </div>
+      <div class="demo-tabs">
+        <div class="demo-tab active">Single Video</div>
+        <div class="demo-tab">Bulk Scan</div>
+      </div>
+      <div class="demo-cards">
+        <div class="demo-card total"><div class="demo-card-num">18</div><div class="demo-card-label">Total</div></div>
+        <div class="demo-card ok"><div class="demo-card-num">12</div><div class="demo-card-label">OK</div></div>
+        <div class="demo-card unavail"><div class="demo-card-num">2</div><div class="demo-card-label">Unavail</div></div>
+        <div class="demo-card broken"><div class="demo-card-num">4</div><div class="demo-card-label">Broken</div></div>
+      </div>
+      <div class="demo-links">
+        <div class="demo-link broken">
+          <div class="demo-dot"></div>
+          <div class="demo-link-text">amzn.to/3F9KTlh</div>
+          <span class="demo-link-badge">BROKEN</span>
+        </div>
+        <div class="demo-link unavail">
+          <div class="demo-dot"></div>
+          <div class="demo-link-text">amzn.to/4de2ir3</div>
+          <span class="demo-link-badge">UNAVAIL</span>
+        </div>
+        <div class="demo-link ok">
+          <div class="demo-dot"></div>
+          <div class="demo-link-text">amzn.to/427ZLtq</div>
+          <span class="demo-link-badge">OK</span>
+        </div>
+        <div class="demo-link ok">
+          <div class="demo-dot"></div>
+          <div class="demo-link-text">amzn.to/42bmvsy</div>
+          <span class="demo-link-badge">OK</span>
+        </div>
+      </div>
     </div>
-
-    <div class="success" id="success-msg">
-      <div class="success-icon">🎉</div>
-      <div class="success-text">You're on the list!</div>
-      <div class="success-sub">We'll email you the moment AffiliScan launches.</div>
-    </div>
-
-    <div class="features">
-      <div class="feat"><span class="feat-dot"></span>Broken link detection</div>
-      <div class="feat"><span class="feat-dot"></span>Unavailable products</div>
-      <div class="feat"><span class="feat-dot"></span>Bulk channel scan</div>
-      <div class="feat"><span class="feat-dot"></span>Find replacement</div>
-      <div class="feat"><span class="feat-dot"></span>Email alerts</div>
-      <div class="feat"><span class="feat-dot"></span>Dashboard</div>
-    </div>
-
-    <div class="footer">© 2025 AffiliScan. All rights reserved.</div>
-
   </div>
 
+  <!-- PROBLEM -->
+  <section class="problem-section" id="features">
+    <div class="container">
+      <span class="section-label reveal">The problem</span>
+      <h2 class="section-title reveal">Every broken link is<br/>lost commission</h2>
+      <p class="section-sub reveal">Amazon affiliate links break silently. Products get discontinued, tags get stripped, listings disappear. You have no idea until someone tells you.</p>
+
+      <div class="problem-grid reveal">
+        <div class="problem-card">
+          <div class="problem-icon">💀</div>
+          <div class="problem-title">Broken links</div>
+          <div class="problem-desc">Product pages that return 404, redirect to homepage, or have had their affiliate tag stripped. Every click earns you nothing.</div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">🚫</div>
+          <div class="problem-title">Unavailable products</div>
+          <div class="problem-desc">Items still listed but marked "Currently unavailable" — visitors can't buy, so you can't earn. These are invisible without scanning.</div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon">📺</div>
+          <div class="problem-title">Hundreds of old videos</div>
+          <div class="problem-desc">Your video from 3 years ago still gets traffic. But the affiliate links? Half are dead. Checking them manually takes days.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section">
+    <div class="container">
+      <span class="section-label reveal">Features</span>
+      <h2 class="section-title reveal">Everything you need to<br/>protect your income</h2>
+
+      <div class="features-grid">
+        <div class="feature-card featured reveal">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Bulk scan entire channels & playlists</div>
+          <div class="feature-desc">Paste a YouTube channel URL or playlist and AffiliScan checks every single video's affiliate links in the background — no tab switching, no waiting. Up to 200 videos at once, done in seconds using the YouTube API.</div>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🔍</div>
+          <div class="feature-title">Single video scan</div>
+          <div class="feature-desc">Open any YouTube video and scan its description instantly. Works in the background — switch tabs freely while it runs.</div>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🔄</div>
+          <div class="feature-title">Find replacement</div>
+          <div class="feature-desc">Every broken or unavailable link has a "Find replacement" button that searches Amazon for the same product automatically.</div>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">📊</div>
+          <div class="feature-title">Export CSV</div>
+          <div class="feature-desc">Export all scan results to a spreadsheet — video titles, URLs, link status, and reasons. Perfect for batch fixing sessions.</div>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🔔</div>
+          <div class="feature-title">Badge notifications</div>
+          <div class="feature-desc">The extension icon shows a live count of broken and unavailable links — even when the popup is closed. Always know your status at a glance.</div>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon">🌙</div>
+          <div class="feature-title">Auto dark/light mode</div>
+          <div class="feature-desc">Follows your system appearance automatically. No toggle needed — it just works.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section" id="how">
+    <div class="container">
+      <span class="section-label reveal">How it works</span>
+      <h2 class="section-title reveal">Scan any video in<br/>three steps</h2>
+
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <div class="step-title">Open a YouTube video</div>
+          <div class="step-desc">Navigate to any YouTube video that has Amazon affiliate links in the description. Or paste a whole channel/playlist URL for bulk scanning.</div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">02</div>
+          <div class="step-title">Click Scan Description</div>
+          <div class="step-desc">AffiliScan automatically expands the description, extracts every Amazon link, and checks each one — even while you browse other tabs.</div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">03</div>
+          <div class="step-title">Fix broken links instantly</div>
+          <div class="step-desc">See exactly which links are broken, unavailable, or OK. Click "Find replacement" to search Amazon for alternatives and update your description.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <span class="section-label reveal">Pricing</span>
+      <h2 class="section-title reveal">Simple, honest pricing</h2>
+      <p class="section-sub reveal">The core extension is free forever. Paid plans with advanced features are coming soon.</p>
+
+      <div class="pricing-grid">
+        <div class="pricing-card reveal">
+          <div class="pricing-name">Free</div>
+          <div class="pricing-price">$0</div>
+          <div class="pricing-period">forever</div>
+          <ul class="pricing-features">
+            <li>Single video scanning</li>
+            <li>Broken & unavailable detection</li>
+            <li>Find replacement button</li>
+            <li>Dark / light mode</li>
+            <li class="no">Bulk channel/playlist scan</li>
+            <li class="no">Email alerts</li>
+            <li class="no">Dashboard</li>
+          </ul>
+          <a href="https://chromewebstore.google.com/detail/affiliscan/bjecldnbhlllbbicadlbecckdblpimga" target="_blank" class="btn-plan outline">Get started free</a>
+        </div>
+
+        <div class="pricing-card popular reveal">
+          <div class="popular-badge">MOST POPULAR</div>
+          <div class="pricing-name">Pro</div>
+          <div style="display:inline-block;background:rgba(255,173,53,.15);color:#ffad35;border:1px solid rgba(255,173,53,.3);border-radius:100px;font-size:10px;font-weight:700;padding:3px 10px;font-family:var(--mono);letter-spacing:.06em;margin-bottom:8px;">IN DEVELOPMENT</div>
+
+          <ul class="pricing-features">
+            <li>Everything in Free</li>
+            <li>Bulk channel & playlist scan</li>
+            <li>Up to 200 videos per scan</li>
+            <li>CSV export</li>
+            <li>Email alerts for broken links</li>
+            <li>Scan history dashboard</li>
+            <li class="no">Scheduled auto-scans</li>
+          </ul>
+          <a href="#" class="btn-plan primary" style="opacity:.5;cursor:not-allowed;pointer-events:none;">Coming Soon</a>
+        </div>
+
+        <div class="pricing-card reveal">
+          <div class="pricing-name">Agency</div>
+          <div style="display:inline-block;background:rgba(255,173,53,.15);color:#ffad35;border:1px solid rgba(255,173,53,.3);border-radius:100px;font-size:10px;font-weight:700;padding:3px 10px;font-family:var(--mono);letter-spacing:.06em;margin-bottom:8px;">IN DEVELOPMENT</div>
+
+          <ul class="pricing-features">
+            <li>Everything in Pro</li>
+            <li>Scheduled auto-scans (daily/weekly)</li>
+            <li>Multiple channel monitoring</li>
+            <li>Priority email support</li>
+            <li>Early access to new features</li>
+            <li>API access (coming soon)</li>
+            <li>Up to 5 team members</li>
+          </ul>
+          <a href="#" class="btn-plan outline" style="opacity:.5;cursor:not-allowed;pointer-events:none;">Coming Soon</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <span class="section-label reveal">FAQ</span>
+      <h2 class="section-title reveal">Common questions</h2>
+
+      <div class="faq-list reveal">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Does AffiliScan work on all Amazon marketplaces?
+            <span class="faq-q-icon">+</span>
+          </button>
+          <div class="faq-a">Yes — AffiliScan detects links for amazon.com, amazon.co.uk, amazon.de, amazon.fr, amazon.it, amazon.es, amazon.ca, amazon.com.au, amazon.co.jp, and more. It also handles amzn.to short links from all regions.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Will scanning many links get my account flagged by Amazon?
+            <span class="faq-q-icon">+</span>
+          </button>
+          <div class="faq-a">No — AffiliScan fetches pages from your browser like a normal user visit, with standard browser headers. It's no different from manually clicking each link to check it. Amazon has no way to distinguish this from regular browsing.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What's the difference between "Broken" and "Unavailable"?
+            <span class="faq-q-icon">+</span>
+          </button>
+          <div class="faq-a">Broken links are dead — the product page doesn't exist, returns an error, or redirects to Amazon's homepage. Unavailable links are live pages but the product can't currently be purchased (out of stock, discontinued, etc.). Both result in lost commission, but for different reasons.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Can I use it while doing other things in Chrome?
+            <span class="faq-q-icon">+</span>
+          </button>
+          <div class="faq-a">Yes — scans run entirely in the background service worker. You can close the popup, switch tabs, watch videos, or open new windows and the scan keeps running. When it's done, the results are waiting for you.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Is my data stored anywhere?
+            <span class="faq-q-icon">+</span>
+          </button>
+          <div class="faq-a">On the free plan, all data stays in your browser's local storage — nothing is sent to any server. On paid plans, scan results are stored on our servers to power the dashboard and email alerts, but your Amazon credentials and personal data are never collected.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container" style="position:relative;">
+      <div class="cta-glow"></div>
+      <span class="section-label reveal">Get started</span>
+      <h2 class="section-title reveal" style="margin-bottom:24px;">Your affiliate links are<br/>breaking right now</h2>
+      <p class="section-sub reveal" style="margin: 0 auto 48px; text-align:center;">Install AffiliScan for free and find out exactly which ones in under 10 seconds.</p>
+      <div class="reveal" style="display:flex;justify-content:center;">
+        <a href="https://chromewebstore.google.com/detail/affiliscan/bjecldnbhlllbbicadlbecckdblpimga" target="_blank" class="btn-primary" style="font-size:16px;padding:16px 36px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+          Add to Chrome — It's Free
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      </svg>
+      AffiliScan
+    </div>
+    <div>© 2025 AffiliScan. All rights reserved.</div>
+    <div style="display:flex;gap:24px;">
+      <a href="/privacy.html" style="color:var(--text-muted);text-decoration:none;cursor:pointer;">Privacy</a>
+      <a href="/privacy.html" style="color:var(--text-muted);text-decoration:none;cursor:pointer;">Terms</a>
+      <a href="mailto:hello@affiliscan.app" style="color:var(--text-muted);text-decoration:none;cursor:pointer;">Contact</a>
+    </div>
+  </footer>
+
   <script>
-    function handleSubmit(e) {
-      const email = document.getElementById('email-input').value.trim();
-      const btn   = document.getElementById('submit-btn');
-
-      if (!email || !email.includes('@')) {
-        document.getElementById('email-input').style.outline = '2px solid #ff4f4f';
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = 'Saving…';
-
-      setTimeout(() => {
-        document.getElementById('form-wrap').style.display = 'none';
-        document.getElementById('form-note').style.display = 'none';
-        document.getElementById('success-msg').classList.add('show');
-      }, 800);
+    // FAQ toggle
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
     }
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   </script>
 
 </body>
