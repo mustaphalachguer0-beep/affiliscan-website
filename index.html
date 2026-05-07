@@ -1270,6 +1270,46 @@
     </div>
   </section>
 
+  <!-- EMAIL SIGNUP -->
+  <section style="padding:80px 0;border-top:1px solid var(--border);text-align:center;">
+    <div class="container">
+      <span class="section-label reveal">Stay updated</span>
+      <h2 class="section-title reveal" style="margin-bottom:16px;">Get notified about new features</h2>
+      <p class="section-sub reveal" style="margin:0 auto 40px;">Email alerts, dashboard, and scheduled scans are coming. Be the first to know when they launch.</p>
+
+      <!-- Hidden iframe for Mailchimp -->
+      <iframe name="mc-hidden-footer" style="display:none;"></iframe>
+
+      <div class="reveal" style="max-width:480px;margin:0 auto;">
+        <form action="https://app.us17.list-manage.com/subscribe/post?u=7b1bf1a26d8903de17167995b&amp;id=a58fcce79d&amp;f_id=00e5c3e1f0"
+              method="post" target="mc-hidden-footer" onsubmit="handleSignup(event)">
+
+          <div id="signup-form" style="display:flex;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .2s;">
+            <input type="email" name="EMAIL" id="signup-email" placeholder="Enter your email address" required
+              style="flex:1;background:none;border:none;outline:none;padding:14px 20px;color:var(--text);font-family:var(--body);font-size:15px;min-width:0;" />
+            <button type="submit" id="signup-btn"
+              style="padding:14px 24px;background:var(--accent);color:#fff;border:none;font-family:var(--body);font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:opacity .2s;flex-shrink:0;">
+              Notify Me
+            </button>
+          </div>
+
+          <!-- Mailchimp bot protection -->
+          <div style="position:absolute;left:-5000px;" aria-hidden="true">
+            <input type="text" name="b_7b1bf1a26d8903de17167995b_a58fcce79d" tabindex="-1" value="">
+          </div>
+        </form>
+
+        <div id="signup-success" style="display:none;padding:20px;background:rgba(46,204,110,0.06);border:1px solid rgba(46,204,110,0.2);border-radius:10px;margin-top:8px;">
+          <div style="font-size:24px;margin-bottom:8px;">🎉</div>
+          <div style="font-size:15px;color:#2ecc6e;font-weight:600;">You're on the list!</div>
+          <div style="font-size:13px;color:var(--text-dim);margin-top:4px;">We'll email you when new features launch.</div>
+        </div>
+
+        <p style="font-size:12px;color:var(--text-muted);margin-top:12px;">No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo">
@@ -1288,6 +1328,22 @@
   </footer>
 
   <script>
+    // Email signup handler
+    function handleSignup(e) {
+      const email = document.getElementById('signup-email').value.trim();
+      const btn = document.getElementById('signup-btn');
+      if (!email || !email.includes('@')) {
+        document.getElementById('signup-form').style.borderColor = '#ff4f4f';
+        return;
+      }
+      btn.disabled = true;
+      btn.textContent = 'Saving…';
+      setTimeout(() => {
+        document.getElementById('signup-form').style.display = 'none';
+        document.getElementById('signup-success').style.display = 'block';
+      }, 800);
+    }
+
     // FAQ toggle
     function toggleFaq(btn) {
       const item = btn.parentElement;
